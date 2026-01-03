@@ -1,4 +1,4 @@
-package ba.sum.fsre.dentalappointemntapp.data.network.api;
+package ba.sum.fsre.dentalappointemntapp.data.network;
 
 import java.util.List;
 import ba.sum.fsre.dentalappointemntapp.data.model.Service;

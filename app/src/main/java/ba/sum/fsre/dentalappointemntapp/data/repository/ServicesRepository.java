@@ -5,7 +5,7 @@ import java.util.List;
 
 import ba.sum.fsre.dentalappointemntapp.data.model.Service;
 import ba.sum.fsre.dentalappointemntapp.data.network.ApiClient;
-import ba.sum.fsre.dentalappointemntapp.data.network.api.ServicesApi;
+import ba.sum.fsre.dentalappointemntapp.data.network.ServicesApi;
 import retrofit2.Call;
 
 public class ServicesRepository {

@@ -5,7 +5,6 @@
 Android app created in Java (Views) and prepared for Supabase integration.
 
 ## Setup (Supabase)
-
 Projekt koristi Supabase REST (PostgREST) preko Retrofit/OkHttp.
 
 ### 1) Lokalni ključevi (NE commitati)
