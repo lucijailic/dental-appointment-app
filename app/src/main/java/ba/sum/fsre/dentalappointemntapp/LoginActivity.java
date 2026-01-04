@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,12 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.password_input);
         Button loginBtn = findViewById(R.id.login_button);
 
+        TextView goToRegister = findViewById(R.id.go_to_register);
+        goToRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
 
         loginBtn.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
@@ -35,6 +42,16 @@ public class LoginActivity extends AppCompatActivity {
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Popunite sva polja", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Neispravan email format", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (password.length() < 6) {
+                Toast.makeText(this, "Lozinka mora imati najmanje 6 karaktera", Toast.LENGTH_SHORT).show();
                 return;
             }
 

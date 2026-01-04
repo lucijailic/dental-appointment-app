@@ -20,11 +20,27 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prijava"
+        android:text="Registracija"
         android:textSize="26sp"
         android:textStyle="bold"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"/>
+
+    <EditText
+        android:id="@+id/first_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ime"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/last_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Prezime"
+        android:inputType="textPersonName"
+        android:layout_marginBottom="12dp"/>
 
     <EditText
         android:id="@+id/email_input"
@@ -42,20 +58,24 @@
         android:inputType="textPassword"
         android:layout_marginBottom="24dp"/>
 
+
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Prijavite se"
-        android:backgroundTint="#4DD0E1" />
+        android:text="Registrirajte se"
+        android:backgroundTint="#4DD0E1"/>
+
 
     <TextView
-        android:id="@+id/go_to_register"
+        android:id="@+id/go_to_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nemate račun? Registrirajte se"
+        android:text="Već imate račun? Prijavite se"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        android:textColor="#2196F3"/>
+        android:textColor="#2196F3"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </LinearLayout>
