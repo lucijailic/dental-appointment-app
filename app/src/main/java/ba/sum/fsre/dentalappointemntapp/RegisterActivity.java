@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
+import ba.sum.fsre.dentalappointemntapp.data.model.ProfileRequest;
 import ba.sum.fsre.dentalappointemntapp.data.model.RegisterRequest;
 import ba.sum.fsre.dentalappointemntapp.data.model.AuthResponse;
 import ba.sum.fsre.dentalappointemntapp.data.network.ApiClient;
@@ -58,13 +60,41 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                             if (response.isSuccessful() && response.body() != null) {
-                                Toast.makeText(RegisterActivity.this,
-                                        "Uspješna registracija! Prijavite se s novim računom.",
-                                        Toast.LENGTH_LONG).show();
+                                AuthResponse authData = response.body();
+                                TokenStorage storage = new TokenStorage(RegisterActivity.this);
+                                storage.saveAccessToken(authData.getAccessToken());
 
-                                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-                                    finish();
-                                }, 1500);
+
+                                String userId = authData.getUser().getId();
+                                ProfileRequest profileRequest = new ProfileRequest(userId, firstName, lastName,email);
+
+                                AuthApi profileApi = ApiClient.get(RegisterActivity.this).create(AuthApi.class);
+                                profileApi.createProfile(profileRequest).enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> callProfile, Response<Void> responseProfile) {
+                                        if (responseProfile.isSuccessful()) {
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Uspješna registracija! Prijavite se s novim računom.",
+                                                    Toast.LENGTH_LONG).show();
+
+                                            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                                                finish();
+                                            }, 1500);
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this,
+                                                    "Greška pri spremanju profila",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> callProfile, Throwable t) {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Greška mreže: " + t.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             } else {
                                 Toast.makeText(RegisterActivity.this,
                                         "Greška pri registraciji",
@@ -78,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         });
-
 
         goToLogin.setOnClickListener(v -> {
             finish();

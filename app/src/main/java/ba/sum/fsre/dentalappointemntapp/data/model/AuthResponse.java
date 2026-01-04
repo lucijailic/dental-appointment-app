@@ -6,4 +6,27 @@ public class AuthResponse {
     private String accessToken;
     public String getAccessToken() { return accessToken; }
 
+    public static class User {
+        @SerializedName("id")
+        private String id;
+
+        @SerializedName("email")
+        private String email;
+
+        public String getId() {
+            return id;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+    }
+
+    @SerializedName("user")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
     }
