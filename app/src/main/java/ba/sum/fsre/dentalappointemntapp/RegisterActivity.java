@@ -61,44 +61,38 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 AuthResponse authData = response.body();
-                                TokenStorage storage = new TokenStorage(RegisterActivity.this);
-                                storage.saveAccessToken(authData.getAccessToken());
 
+                                // Provjera imamo li token i korisnika (Null-safety)
+                                if (authData.getAccessToken() != null && authData.getUser() != null && authData.getUser().getId() != null) {
 
-                                String userId = authData.getUser().getId();
-                                ProfileRequest profileRequest = new ProfileRequest(userId, firstName, lastName,email);
+                                    TokenStorage storage = new TokenStorage(RegisterActivity.this);
+                                    storage.saveAccessToken(authData.getAccessToken());
 
-                                AuthApi profileApi = ApiClient.get(RegisterActivity.this).create(AuthApi.class);
-                                profileApi.createProfile(profileRequest).enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> callProfile, Response<Void> responseProfile) {
-                                        if (responseProfile.isSuccessful()) {
-                                            Toast.makeText(RegisterActivity.this,
-                                                    "Uspješna registracija! Prijavite se s novim računom.",
-                                                    Toast.LENGTH_LONG).show();
+                                    String userId = authData.getUser().getId();
+                                    ProfileRequest profileRequest = new ProfileRequest(userId, firstName, lastName, email);
 
-                                            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
-                                                finish();
-                                            }, 1500);
-                                        } else {
-                                            Toast.makeText(RegisterActivity.this,
-                                                    "Greška pri spremanju profila",
-                                                    Toast.LENGTH_SHORT).show();
+                                    AuthApi profileApi = ApiClient.get(RegisterActivity.this).create(AuthApi.class);
+                                    profileApi.createProfile(profileRequest).enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> callProfile, Response<Void> responseProfile) {
+                                            if (responseProfile.isSuccessful()) {
+                                                Toast.makeText(RegisterActivity.this, "Uspješna registracija! Prijavite se.", Toast.LENGTH_LONG).show();
+                                                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> finish(), 1500);
+                                            } else {
+                                                Toast.makeText(RegisterActivity.this, "Greška pri spremanju profila", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<Void> callProfile, Throwable t) {
-                                        Toast.makeText(RegisterActivity.this,
-                                                "Greška mreže: " + t.getMessage(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
+                                        @Override
+                                        public void onFailure(Call<Void> callProfile, Throwable t) {
+                                            Toast.makeText(RegisterActivity.this, "Greška mreže: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "Greška: Podaci nisu primljeni", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(RegisterActivity.this,
-                                        "Greška pri registraciji",
-                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Greška pri registraciji", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -109,8 +103,6 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         });
 
-        goToLogin.setOnClickListener(v -> {
-            finish();
-        });
+        goToLogin.setOnClickListener(v -> finish());
     }
 }

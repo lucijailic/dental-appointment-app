@@ -64,15 +64,17 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         AuthResponse authData = response.body();
 
-                        TokenStorage storage = new TokenStorage(LoginActivity.this);
-                        storage.saveAccessToken(authData.getAccessToken());
+                        if (authData.getAccessToken() != null) {
+                            TokenStorage storage = new TokenStorage(LoginActivity.this);
+                            storage.saveAccessToken(authData.getAccessToken());
 
-                        Toast.makeText(LoginActivity.this, "Uspješna prijava!", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-
-                        finish();
+                            Toast.makeText(LoginActivity.this, "Uspješna prijava!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Greška: Token nije primljen", Toast.LENGTH_SHORT).show();
+                        }
 
                     } else {
                         Toast.makeText(LoginActivity.this, "Pogrešan email ili lozinka", Toast.LENGTH_SHORT).show();
