@@ -62,11 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
                             if (response.isSuccessful() && response.body() != null) {
                                 AuthResponse authData = response.body();
 
-                                // Provjera imamo li token i korisnika (Null-safety)
-                                if (authData.getAccessToken() != null && authData.getUser() != null && authData.getUser().getId() != null) {
 
-                                    TokenStorage storage = new TokenStorage(RegisterActivity.this);
-                                    storage.saveAccessToken(authData.getAccessToken());
+                                if (authData.getUser() != null && authData.getUser().getId() != null) {
 
                                     String userId = authData.getUser().getId();
                                     ProfileRequest profileRequest = new ProfileRequest(userId, firstName, lastName, email);
