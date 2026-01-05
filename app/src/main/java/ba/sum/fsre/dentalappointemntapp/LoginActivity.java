@@ -9,9 +9,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 import ba.sum.fsre.dentalappointemntapp.data.model.AuthRequest;
 import ba.sum.fsre.dentalappointemntapp.data.model.AuthResponse;
+import ba.sum.fsre.dentalappointemntapp.data.model.ProfileRequest;
 import ba.sum.fsre.dentalappointemntapp.data.network.ApiClient;
 import ba.sum.fsre.dentalappointemntapp.data.network.AuthApi;
 import retrofit2.Call;
@@ -35,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
         loginBtn.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
@@ -55,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-
             AuthApi api = ApiClient.get(this).create(AuthApi.class);
 
             api.login(new AuthRequest(email, password)).enqueue(new Callback<AuthResponse>() {
@@ -68,14 +69,32 @@ public class LoginActivity extends AppCompatActivity {
                             TokenStorage storage = new TokenStorage(LoginActivity.this);
                             storage.saveAccessToken(authData.getAccessToken());
 
-                            Toast.makeText(LoginActivity.this, "Uspješna prijava!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            String userId = authData.getUser().getId();
+                            api.getProfile("eq." + userId, "*").enqueue(new Callback<List<ProfileRequest>>() {
+                                @Override
+                                public void onResponse(Call<List<ProfileRequest>> call, Response<List<ProfileRequest>> profileResponse) {
+                                    if (profileResponse.isSuccessful() && profileResponse.body() != null && !profileResponse.body().isEmpty()) {
+                                        String ulogaIzBaze = profileResponse.body().get(0).role;
+                                        Toast.makeText(LoginActivity.this, "Prijavljeni ste kao: " + ulogaIzBaze, Toast.LENGTH_LONG).show();
+
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("ROLE", ulogaIzBaze);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Greška: Uloga nije pronađena.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<List<ProfileRequest>> call, Throwable t) {
+                                    Toast.makeText(LoginActivity.this, "Greška pri dohvaćanju profila", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         } else {
                             Toast.makeText(LoginActivity.this, "Greška: Token nije primljen", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
                         Toast.makeText(LoginActivity.this, "Pogrešan email ili lozinka", Toast.LENGTH_SHORT).show();
                     }
@@ -87,7 +106,5 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         });
-
-
     }
 }

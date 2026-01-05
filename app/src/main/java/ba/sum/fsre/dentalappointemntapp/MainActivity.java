@@ -25,6 +25,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        Button logoutBtn = findViewById(R.id.logout_button);
+        logoutBtn.setOnClickListener(v -> {
+            TokenStorage storage = new TokenStorage(MainActivity.this);
+            storage.clear();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
 
 
     }
