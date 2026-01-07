@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/nazivUsluge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciscenje kamenca"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/cijenaUsluge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cijena: 50 KM"
+            android:layout_marginTop="6dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/trajanjeUsluge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trajanje: 30 minuta"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
