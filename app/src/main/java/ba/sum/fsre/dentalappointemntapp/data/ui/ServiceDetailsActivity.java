@@ -13,7 +13,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usluge_detaljno);
+        setContentView(R.layout.activity_service_detailed);
 
         try {
             TextView tvName = findViewById(R.id.nazivUslugeDetaljno);

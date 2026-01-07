@@ -27,7 +27,7 @@ public class ServicesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popis_usluga);
+        setContentView(R.layout.activity_service_list);
 
         recyclerView = findViewById(R.id.rvServices);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
