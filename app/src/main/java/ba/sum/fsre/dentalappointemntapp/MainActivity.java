@@ -2,13 +2,15 @@ package ba.sum.fsre.dentalappointemntapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import ba.sum.fsre.dentalappointemntapp.data.ui.ServicesActivity;
+
+import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,9 +25,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Direktno pokretanje popisa za testiranje (Treba promijenuti i u manifestu)
-        startActivity(new Intent(this, ServicesActivity.class));
-        finish();
+        Button logoutBtn = findViewById(R.id.logout_button);
+        logoutBtn.setOnClickListener(v -> {
+            TokenStorage storage = new TokenStorage(MainActivity.this);
+            storage.clear();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+
 
     }
 

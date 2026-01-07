@@ -10,7 +10,6 @@ public class Service {
     @SerializedName("duration_minutes")
     public int duration_minutes;
 
-    // numeric u Postgresu -> u Javi najbolje BigDecimal ili Double
     public Double price;
 
     @SerializedName("created_at")
