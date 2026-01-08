@@ -33,10 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.login_button);
 
         TextView goToRegister = findViewById(R.id.go_to_register);
-        goToRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        });
+        goToRegister.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
 
         loginBtn.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
@@ -46,12 +43,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Popunite sva polja", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 Toast.makeText(this, "Neispravan email format", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (password.length() < 6) {
                 Toast.makeText(this, "Lozinka mora imati najmanje 6 karaktera", Toast.LENGTH_SHORT).show();
                 return;
@@ -62,42 +57,44 @@ public class LoginActivity extends AppCompatActivity {
             api.login(new AuthRequest(email, password)).enqueue(new Callback<AuthResponse>() {
                 @Override
                 public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        AuthResponse authData = response.body();
-
-                        if (authData.getAccessToken() != null) {
-                            TokenStorage storage = new TokenStorage(LoginActivity.this);
-                            storage.saveAccessToken(authData.getAccessToken());
-
-                            String userId = authData.getUser().getId();
-                            api.getProfile("eq." + userId, "*").enqueue(new Callback<List<ProfileRequest>>() {
-                                @Override
-                                public void onResponse(Call<List<ProfileRequest>> call, Response<List<ProfileRequest>> profileResponse) {
-                                    if (profileResponse.isSuccessful() && profileResponse.body() != null && !profileResponse.body().isEmpty()) {
-                                        String ulogaIzBaze = profileResponse.body().get(0).role;
-                                        Toast.makeText(LoginActivity.this, "Prijavljeni ste kao: " + ulogaIzBaze, Toast.LENGTH_LONG).show();
-
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        intent.putExtra("ROLE", ulogaIzBaze);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Greška: Uloga nije pronađena.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<List<ProfileRequest>> call, Throwable t) {
-                                    Toast.makeText(LoginActivity.this, "Greška pri dohvaćanju profila", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Greška: Token nije primljen", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
+                    if (!response.isSuccessful() || response.body() == null) {
                         Toast.makeText(LoginActivity.this, "Pogrešan email ili lozinka", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    AuthResponse authData = response.body();
+                    if (authData.getAccessToken() == null || authData.getUser() == null || authData.getUser().getId() == null) {
+                        Toast.makeText(LoginActivity.this, "Greška: Token ili user nije primljen", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // spremi token za interceptor
+                    TokenStorage storage = new TokenStorage(LoginActivity.this);
+                    storage.saveAccessToken(authData.getAccessToken());
+
+                    String userId = authData.getUser().getId();
+
+                    // sada povuci profil (trigger ga je već napravio)
+                    api.getProfile("eq." + userId, "*").enqueue(new Callback<List<ProfileRequest>>() {
+                        @Override
+                        public void onResponse(Call<List<ProfileRequest>> call, Response<List<ProfileRequest>> profileResponse) {
+                            if (profileResponse.isSuccessful() && profileResponse.body() != null && !profileResponse.body().isEmpty()) {
+                                String ulogaIzBaze = profileResponse.body().get(0).role;
+
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("ROLE", ulogaIzBaze);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Greška: Profil nije pronađen.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<ProfileRequest>> call, Throwable t) {
+                            Toast.makeText(LoginActivity.this, "Greška pri dohvaćanju profila: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
