@@ -21,7 +21,8 @@ public class AuthInterceptor implements Interceptor {
         Request original = chain.request();
 
         Request.Builder builder = original.newBuilder()
-                .header("apikey", BuildConfig.SUPABASE_ANON_KEY);
+                .header("apikey", BuildConfig.SUPABASE_ANON_KEY)
+                .header("Accept", "application/json");
 
         String token = tokenStorage.getAccessToken();
         if (token != null && !token.isEmpty()) {
