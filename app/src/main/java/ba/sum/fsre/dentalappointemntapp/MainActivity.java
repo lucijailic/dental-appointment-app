@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
+import ba.sum.fsre.dentalappointemntapp.data.ui.ServicesActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        });
+
+        Button uslugeBtn = findViewById(R.id.usluge_temp);
+        uslugeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ServicesActivity.class);
+            startActivity(intent);
         });
 
     }
