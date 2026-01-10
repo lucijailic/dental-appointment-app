@@ -26,6 +26,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        findViewById(R.id.register_card).setAlpha(0f);
+        findViewById(R.id.register_card).setTranslationY(30f);
+        findViewById(R.id.register_card).animate().alpha(1f).translationY(0f).setDuration(350).start();
+
+
         EditText firstNameInput = findViewById(R.id.first_name_input);
         EditText lastNameInput  = findViewById(R.id.last_name_input);
         EditText emailInput     = findViewById(R.id.email_input);

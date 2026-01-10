@@ -20,6 +20,7 @@
         android:layout_height="96dp"
         android:src="@drawable/dentistry_24px"
         app:tint="#FFFFFF"
+        android:contentDescription="@string/logo_desc"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/splash_header"
         app:layout_constraintStart_toStartOf="parent"

@@ -28,6 +28,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        findViewById(R.id.login_card).setAlpha(0f);
+        findViewById(R.id.login_card).setTranslationY(30f);
+        findViewById(R.id.login_card).animate().alpha(1f).translationY(0f).setDuration(350).start();
+
+
         EditText emailInput = findViewById(R.id.email_input);
         EditText passwordInput = findViewById(R.id.password_input);
         Button loginBtn = findViewById(R.id.login_button);
