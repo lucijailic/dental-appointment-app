@@ -43,14 +43,48 @@ public class SplashActivity extends AppCompatActivity {
 
         TokenStorage storage = new TokenStorage(this);
         String token = storage.getAccessToken();
+        String userId = storage.getUserId();
 
         new android.os.Handler().postDelayed(() -> {
-            if (token != null && !token.isEmpty()) {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            } else {
+
+            if (token == null || token.isEmpty() || userId == null || userId.isEmpty()) {
                 startActivity(new Intent(SplashActivity.this, PublicDashboardActivity.class));
+                finish();
+                return;
             }
-            finish();
+
+            ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository profilesRepository =
+                    new ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository(SplashActivity.this);
+
+            profilesRepository.getProfileByUserId(userId, new ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback<ba.sum.fsre.dentalappointemntapp.data.model.Profile>() {
+                @Override
+                public void onSuccess(ba.sum.fsre.dentalappointemntapp.data.model.Profile profile) {
+                    String role = (profile.role == null) ? "" : profile.role.trim().toLowerCase();
+                    storage.saveRole(role);
+
+                    Intent intent;
+                    if ("owner".equals(role)) {
+                        intent = new Intent(SplashActivity.this, OwnerDashboardActivity.class);
+                    } else {
+                        intent = new Intent(SplashActivity.this, UserDashboardActivity.class);
+                    }
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+
+                @Override
+                public void onError(String error) {
+                    storage.clear();
+                    Intent i = new Intent(SplashActivity.this, PublicDashboardActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                    finish();
+                }
+            });
+
         }, 1000);
+
     }
 }

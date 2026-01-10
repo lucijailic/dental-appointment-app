@@ -9,14 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
-
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 import ba.sum.fsre.dentalappointemntapp.data.model.AuthRequest;
 import ba.sum.fsre.dentalappointemntapp.data.model.AuthResponse;
-import ba.sum.fsre.dentalappointemntapp.data.model.ProfileRequest;
+import ba.sum.fsre.dentalappointemntapp.data.model.Profile;
 import ba.sum.fsre.dentalappointemntapp.data.network.ApiClient;
 import ba.sum.fsre.dentalappointemntapp.data.network.AuthApi;
+import ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository;
+import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +33,9 @@ public class LoginActivity extends AppCompatActivity {
         Button loginBtn = findViewById(R.id.login_button);
 
         TextView goToRegister = findViewById(R.id.go_to_register);
-        goToRegister.setOnClickListener(v -> startActivity(new Intent(this, RegisterActivity.class)));
+        goToRegister.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+        );
 
         loginBtn.setOnClickListener(v -> {
             String email = emailInput.getText().toString().trim();
@@ -63,36 +65,47 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     AuthResponse authData = response.body();
-                    if (authData.getAccessToken() == null || authData.getUser() == null || authData.getUser().getId() == null) {
+                    if (authData.getAccessToken() == null ||
+                            authData.getUser() == null ||
+                            authData.getUser().getId() == null) {
                         Toast.makeText(LoginActivity.this, "Greška: Token ili user nije primljen", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    // spremi token za interceptor
                     TokenStorage storage = new TokenStorage(LoginActivity.this);
                     storage.saveAccessToken(authData.getAccessToken());
 
                     String userId = authData.getUser().getId();
+                    storage.saveUserId(userId);
 
-                    // sada povuci profil (trigger ga je već napravio)
-                    api.getProfile("eq." + userId, "*").enqueue(new Callback<List<ProfileRequest>>() {
+                    ProfilesRepository profilesRepository = new ProfilesRepository(LoginActivity.this);
+                    profilesRepository.getProfileByUserId(userId, new RepositoryCallback<Profile>() {
                         @Override
-                        public void onResponse(Call<List<ProfileRequest>> call, Response<List<ProfileRequest>> profileResponse) {
-                            if (profileResponse.isSuccessful() && profileResponse.body() != null && !profileResponse.body().isEmpty()) {
-                                String ulogaIzBaze = profileResponse.body().get(0).role;
+                        public void onSuccess(Profile profile) {
+                            String role = (profile.role == null) ? "" : profile.role.trim().toLowerCase();
+                            storage.saveRole(role);
 
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("ROLE", ulogaIzBaze);
-                                startActivity(intent);
-                                finish();
+                            Intent intent;
+                            if ("owner".equals(role)) {
+                                intent = new Intent(LoginActivity.this, OwnerDashboardActivity.class);
                             } else {
-                                Toast.makeText(LoginActivity.this, "Greška: Profil nije pronađen.", Toast.LENGTH_SHORT).show();
+                                intent = new Intent(LoginActivity.this, UserDashboardActivity.class);
                             }
+
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
                         }
 
                         @Override
-                        public void onFailure(Call<List<ProfileRequest>> call, Throwable t) {
-                            Toast.makeText(LoginActivity.this, "Greška pri dohvaćanju profila: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        public void onError(String error) {
+                            storage.clear();
+                            Toast.makeText(LoginActivity.this, "Profil ne postoji. Ponovno se prijavite.", Toast.LENGTH_LONG).show();
+
+                            Intent i = new Intent(LoginActivity.this, PublicDashboardActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                            finish();
                         }
                     });
                 }
