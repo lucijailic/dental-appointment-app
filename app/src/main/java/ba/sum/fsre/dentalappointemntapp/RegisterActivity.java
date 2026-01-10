@@ -67,8 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 return;
                             }
 
-                            // Ovdje NE radimo createProfile.
-                            // Profil se automatski kreira kroz trigger.
 
                             Toast.makeText(RegisterActivity.this,
                                     "Registracija uspješna! Sada se prijavite.",

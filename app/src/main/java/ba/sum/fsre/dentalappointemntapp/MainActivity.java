@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             TokenStorage storage = new TokenStorage(MainActivity.this);
             storage.clear();
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MainActivity.this, PublicDashboardActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
