@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DentalAppointemntApp</string>
+    <string name="logo_desc">Logo aplikacije</string>
+    <string name="login_icon_desc">Ikona prijave</string>
+    <string name="register_icon_desc">Ikona registracije</string>
+
 </resources>
