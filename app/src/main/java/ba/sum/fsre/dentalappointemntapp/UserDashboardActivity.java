@@ -2,11 +2,16 @@ package ba.sum.fsre.dentalappointemntapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
+import ba.sum.fsre.dentalappointemntapp.data.model.Profile;
+import ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository;
+import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
+import ba.sum.fsre.dentalappointemntapp.data.ui.ServicesActivity;
 
 public class UserDashboardActivity extends AppCompatActivity {
 
@@ -15,13 +20,31 @@ public class UserDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
 
-        Button logoutBtn = findViewById(R.id.btn_logout_user);
-        logoutBtn.setOnClickListener(v -> {
-            new TokenStorage(this).clear();
+        TokenStorage storage = new TokenStorage(this);
+        TextView tvWelcome = findViewById(R.id.tv_welcome_user);
+
+        ProfilesRepository profilesRepo = new ProfilesRepository(this);
+        profilesRepo.getProfileByUserId(storage.getUserId(), new RepositoryCallback<Profile>() {
+            @Override
+            public void onSuccess(Profile profile) {
+                if (profile != null && profile.firstName != null) {
+                    tvWelcome.setText("Zdravo, " + profile.firstName + "!");
+                }
+            }
+            @Override
+            public void onError(String error) {}
+        });
+
+        findViewById(R.id.btn_services_user).setOnClickListener(v ->
+                startActivity(new Intent(this, ServicesActivity.class)));
+
+        findViewById(R.id.btn_logout_user).setOnClickListener(v -> {
+            storage.clear();
             Intent i = new Intent(this, PublicDashboardActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
             finish();
+            Toast.makeText(this, "Odjavljeni ste", Toast.LENGTH_SHORT).show();
         });
     }
 }
