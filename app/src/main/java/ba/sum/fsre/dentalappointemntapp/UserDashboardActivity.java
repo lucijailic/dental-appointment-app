@@ -38,6 +38,10 @@ public class UserDashboardActivity extends AppCompatActivity {
         findViewById(R.id.btn_services_user).setOnClickListener(v ->
                 startActivity(new Intent(this, ServicesActivity.class)));
 
+        findViewById(R.id.btn_my_appointments).setOnClickListener(v ->
+                startActivity(new Intent(this, MyAppointmentsActivity.class)));
+
+
         findViewById(R.id.btn_logout_user).setOnClickListener(v -> {
             storage.clear();
             Intent i = new Intent(this, PublicDashboardActivity.class);
