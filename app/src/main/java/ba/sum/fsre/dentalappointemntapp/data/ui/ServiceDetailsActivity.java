@@ -2,9 +2,11 @@ package ba.sum.fsre.dentalappointemntapp.data.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.button.MaterialButton;
 
 import ba.sum.fsre.dentalappointemntapp.R;
 
@@ -24,6 +26,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
             Intent intent = getIntent();
             if (intent != null) {
                 String name = intent.getStringExtra("service_name");
+                String id = intent.getStringExtra("service_id");
                 double price = intent.getDoubleExtra("service_price", 0.0);
                 int duration = intent.getIntExtra("service_duration", 0);
                 String description = intent.getStringExtra("service_description");
@@ -32,6 +35,19 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                 if (tvPrice != null) tvPrice.setText("Cijena: " + price + " KM");
                 if (tvDuration != null) tvDuration.setText("Trajanje: " + duration + " minuta");
                 if (tvDescription != null) tvDescription.setText(description != null ? description : "");
+
+                MaterialButton btnReserve = findViewById(R.id.btnReserve);
+                if (btnReserve != null) {
+                    btnReserve.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent createIntent = new Intent(ServiceDetailsActivity.this, CreateAppointmentActivity.class);
+                            createIntent.putExtra("SERVICE_ID", id);
+                            createIntent.putExtra("SERVICE_NAME", name);
+                            startActivity(createIntent);
+                        }
+                    });
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -35,6 +35,7 @@ public class ServicesActivity extends AppCompatActivity {
         adapter = new ServicesAdapter(serviceList, service -> {
             Intent intent = new Intent(ServicesActivity.this, ServiceDetailsActivity.class);
 
+            intent.putExtra("service_id", String.valueOf(service.id));
             intent.putExtra("service_name", service.name);
             intent.putExtra("service_price", service.price);
             intent.putExtra("service_duration", service.duration_minutes);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,50 +14,44 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DentalAppointemntApp">
         <activity
+            android:name=".data.ui.CreateAppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PublicDashboardActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".OwnerDashboardActivity"
             android:exported="false" />
-
         <activity
             android:name=".UserDashboardActivity"
             android:exported="false" />
-
         <activity
             android:name=".MyAppointmentsActivity"
             android:exported="false" />
-
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".data.ui.ServicesActivity"
             android:exported="false" />
-
         <activity
             android:name=".data.ui.ServiceDetailsActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>
