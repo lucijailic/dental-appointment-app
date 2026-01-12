@@ -32,7 +32,7 @@ public class AppointmentsRepository {
     }
 
     public void getMyAppointments(String userId, RepositoryCallback<List<Appointment>> callback) {
-        api.getMyAppointments("eq." + userId).enqueue(new Callback<List<Appointment>>() {
+        api.getMyAppointments("eq." + userId, "*,services(name)").enqueue(new Callback<List<Appointment>>() {
             @Override
             public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.body());

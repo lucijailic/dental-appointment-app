@@ -10,7 +10,12 @@ public interface AppointmentsApi {
     Call<Void> createAppointment(@Body Appointment appointment);
 
     @GET("rest/v1/appointments")
-    Call<List<Appointment>> getMyAppointments(@Query("user_id") String userIdFilter);
+    Call<List<Appointment>> getMyAppointments(@Query("user_id") String userIdFilter, @Query("select") String select);
+
+    @Headers({
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
 
     @DELETE("rest/v1/appointments")
     Call<Void> cancelAppointment(@Query("id") String idFilter);

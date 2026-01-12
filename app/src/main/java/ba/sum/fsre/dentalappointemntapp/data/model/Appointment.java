@@ -19,6 +19,9 @@ public class Appointment {
     @SerializedName("created_at")
     public String createdAt;
 
+    @SerializedName("services")
+    private ServiceInfo serviceInfo;
+
     public Appointment() {}
 
     public Appointment(String serviceId, String userId, String appointmentTime, String status) {
@@ -26,5 +29,37 @@ public class Appointment {
         this.userId = userId;
         this.appointmentTime = appointmentTime;
         this.status = status;
+    }
+    public String getId() {
+        return id;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getServiceName() {
+        return (serviceInfo != null) ? serviceInfo.name : "Usluga: " + serviceId;
+    }
+
+    public static class ServiceInfo {
+        @SerializedName("name")
+        public String name;
     }
 }

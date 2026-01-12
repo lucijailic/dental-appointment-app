@@ -10,12 +10,15 @@ import com.google.android.material.button.MaterialButton;
 
 import ba.sum.fsre.dentalappointemntapp.R;
 
+
 public class ServiceDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_detailed);
+
+        MaterialButton btnReserve = findViewById(R.id.btnReserve);
 
         try {
             TextView tvName = findViewById(R.id.nazivUslugeDetaljno);
@@ -31,15 +34,20 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                 int duration = intent.getIntExtra("service_duration", 0);
                 String description = intent.getStringExtra("service_description");
 
+                String currentUserId = intent.getStringExtra("user_id");
+
                 if (tvName != null) tvName.setText(name != null ? name : "");
                 if (tvPrice != null) tvPrice.setText("Cijena: " + price + " KM");
                 if (tvDuration != null) tvDuration.setText("Trajanje: " + duration + " minuta");
                 if (tvDescription != null) tvDescription.setText(description != null ? description : "");
 
-                MaterialButton btnReserve = findViewById(R.id.btnReserve);
                 if (btnReserve != null) {
-                    btnReserve.setOnClickListener(new View.OnClickListener() {
-                        @Override
+                    if (currentUserId == null || currentUserId.isEmpty()) {
+                        btnReserve.setVisibility(View.GONE);
+                    } else {
+                        btnReserve.setVisibility(View.VISIBLE);
+                        btnReserve.setOnClickListener(new View.OnClickListener() {
+                            @Override
                         public void onClick(View v) {
                             Intent createIntent = new Intent(ServiceDetailsActivity.this, CreateAppointmentActivity.class);
                             createIntent.putExtra("SERVICE_ID", id);
@@ -47,6 +55,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                             startActivity(createIntent);
                         }
                     });
+                }
                 }
             }
         } catch (Exception e) {
