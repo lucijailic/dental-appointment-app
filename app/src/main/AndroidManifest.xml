@@ -58,6 +58,12 @@
             android:name=".data.ui.ServiceDetailsActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ManageServicesActivity"
+            android:exported="false" />
+
+
+
     </application>
 
 </manifest>
