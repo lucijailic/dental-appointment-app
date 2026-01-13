@@ -29,12 +29,14 @@ public class ServicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_list);
 
+
         recyclerView = findViewById(R.id.rvServices);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new ServicesAdapter(serviceList, service -> {
             Intent intent = new Intent(ServicesActivity.this, ServiceDetailsActivity.class);
 
+            intent.putExtra("service_id", String.valueOf(service.id));
             intent.putExtra("service_name", service.name);
             intent.putExtra("service_price", service.price);
             intent.putExtra("service_duration", service.duration_minutes);
