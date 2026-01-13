@@ -35,11 +35,8 @@ public class UserDashboardActivity extends AppCompatActivity {
             public void onError(String error) {}
         });
 
-        findViewById(R.id.btn_services_user).setOnClickListener(v ->{
-            Intent intent = new Intent(this, ServicesActivity.class);
-            intent.putExtra("user_id", storage.getUserId());
-            startActivity(intent);
-        });
+        findViewById(R.id.btn_services_user).setOnClickListener(v ->
+                startActivity(new Intent(this, ServicesActivity.class)));
 
         findViewById(R.id.btn_my_appointments).setOnClickListener(v ->
                 startActivity(new Intent(this, MyAppointmentsActivity.class)));

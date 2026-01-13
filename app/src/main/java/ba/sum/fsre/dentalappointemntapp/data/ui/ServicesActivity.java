@@ -29,7 +29,6 @@ public class ServicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_list);
 
-        String userId = getIntent().getStringExtra("user_id");
 
         recyclerView = findViewById(R.id.rvServices);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,7 +41,6 @@ public class ServicesActivity extends AppCompatActivity {
             intent.putExtra("service_price", service.price);
             intent.putExtra("service_duration", service.duration_minutes);
             intent.putExtra("service_description", service.description);
-            intent.putExtra("user_id", userId);
 
             startActivity(intent);
         });

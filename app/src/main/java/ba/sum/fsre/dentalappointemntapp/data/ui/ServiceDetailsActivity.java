@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
+import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 
 import ba.sum.fsre.dentalappointemntapp.R;
 
@@ -18,6 +19,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_detailed);
 
+        TokenStorage storage = new TokenStorage(this);
         MaterialButton btnReserve = findViewById(R.id.btnReserve);
 
         try {
@@ -34,7 +36,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                 int duration = intent.getIntExtra("service_duration", 0);
                 String description = intent.getStringExtra("service_description");
 
-                String currentUserId = intent.getStringExtra("user_id");
+                String currentUserId = storage.getUserId();
 
                 if (tvName != null) tvName.setText(name != null ? name : "");
                 if (tvPrice != null) tvPrice.setText("Cijena: " + price + " KM");
@@ -46,14 +48,11 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                         btnReserve.setVisibility(View.GONE);
                     } else {
                         btnReserve.setVisibility(View.VISIBLE);
-                        btnReserve.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                        public void onClick(View v) {
-                            Intent createIntent = new Intent(ServiceDetailsActivity.this, CreateAppointmentActivity.class);
-                            createIntent.putExtra("SERVICE_ID", id);
-                            createIntent.putExtra("SERVICE_NAME", name);
-                            startActivity(createIntent);
-                        }
+                        btnReserve.setOnClickListener(v -> {
+                        Intent createIntent = new Intent(ServiceDetailsActivity.this, CreateAppointmentActivity.class);
+                        createIntent.putExtra("SERVICE_ID", id);
+                        createIntent.putExtra("SERVICE_NAME", name);
+                        startActivity(createIntent);
                     });
                 }
                 }

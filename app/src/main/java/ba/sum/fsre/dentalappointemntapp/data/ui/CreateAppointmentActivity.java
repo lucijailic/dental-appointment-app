@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ba.sum.fsre.dentalappointemntapp.MyAppointmentsActivity;
 import ba.sum.fsre.dentalappointemntapp.R;
-import ba.sum.fsre.dentalappointemntapp.UserDashboardActivity;
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
 import ba.sum.fsre.dentalappointemntapp.data.repository.AppointmentsRepository;
@@ -61,7 +61,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void result) {
                     Toast.makeText(CreateAppointmentActivity.this, "Uspješna rezervacija!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(CreateAppointmentActivity.this, UserDashboardActivity.class);
+                    Intent intent = new Intent(CreateAppointmentActivity.this, MyAppointmentsActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
