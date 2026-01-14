@@ -6,4 +6,17 @@
     </style>
 
     <style name="Theme.DentalAppointemntApp" parent="Base.Theme.DentalAppointemntApp" />
+    <style name="CustomPickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">#1DB954</item>
+        <item name="colorPrimaryDark">#1DB954</item>
+
+        <item name="android:windowBackground">#1DB954</item>
+
+        <item name="android:textColorPrimary">#163A2A</item>
+        <item name="android:textColorSecondary">#5E7A6B</item>
+
+        <item name="colorAccent">#163A2A</item>
+
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.8</item> </style>
 </resources>

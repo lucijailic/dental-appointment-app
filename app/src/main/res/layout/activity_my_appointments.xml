@@ -8,9 +8,18 @@
     <View
         android:id="@+id/header_app"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="120dp"
         android:background="@drawable/bg_header_wave_green"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMyAppointments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/header_app"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
         android:id="@+id/btn_back_appointments"
@@ -25,6 +34,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
+        android:id="@+id/tv_naslov"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Moje rezervacije"
@@ -35,5 +45,15 @@
         app:layout_constraintStart_toEndOf="@id/btn_back_appointments"
         app:layout_constraintTop_toTopOf="@id/header_app"
         app:layout_constraintBottom_toBottomOf="@id/header_app" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/dentistry_24px"
+        app:tint="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/tv_naslov"
+        app:layout_constraintTop_toTopOf="@+id/tv_naslov"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_naslov" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
