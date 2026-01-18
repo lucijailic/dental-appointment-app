@@ -62,4 +62,17 @@ public class Appointment {
         @SerializedName("name")
         public String name;
     }
+
+    @SerializedName("profiles")
+    private ProfileInfo profileInfo;
+
+    public String getUserEmail() {
+        return (profileInfo != null && profileInfo.email != null) ? profileInfo.email : "";
+    }
+
+    public static class ProfileInfo {
+        @SerializedName("email")
+        public String email;
+    }
+
 }

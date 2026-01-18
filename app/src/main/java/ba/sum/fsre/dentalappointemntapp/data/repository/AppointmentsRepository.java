@@ -9,6 +9,9 @@ import ba.sum.fsre.dentalappointemntapp.data.network.api.AppointmentsApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.util.Calendar;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
 public class AppointmentsRepository {
     private AppointmentsApi api;
@@ -81,4 +84,46 @@ public class AppointmentsRepository {
             }
         });
     }
+
+    public void getAppointmentsForDay(String dateYYYYMMDD, boolean isOwner, RepositoryCallback<List<Appointment>> callback) {
+        String next = nextDay(dateYYYYMMDD);
+
+        String start = "gte." + dateYYYYMMDD + "T00:00:00Z";
+        String end   = "lt."  + next + "T00:00:00Z";
+
+        String select = "*,services(name),profiles(email)";
+        String status = "eq.booked";
+        String order  = "appointment_time.asc";
+
+        api.getAppointmentsForDay(start, end, status, order, select).enqueue(new Callback<List<Appointment>>() {
+            @Override
+            public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Greška pri dohvaćanju rezervacija");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Appointment>> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+
+    private String nextDay(String dateYYYYMMDD) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Calendar c = Calendar.getInstance();
+            c.setTime(sdf.parse(dateYYYYMMDD));
+            c.add(Calendar.DAY_OF_MONTH, 1);
+            return sdf.format(c.getTime());
+        } catch (Exception e) {
+            return dateYYYYMMDD;
+        }
+    }
+
+
 }
