@@ -12,7 +12,6 @@ public interface AppointmentsApi {
 
     @Headers({
             "Content-Type: application/json",
-            "Prefer: return=representation"
     })
     @POST("rest/v1/appointments")
     Call<Void> createAppointment(@Body Appointment appointment);
@@ -43,5 +42,15 @@ public interface AppointmentsApi {
     })
     @POST("rest/v1/rpc/get_available_slots")
     Call<List<ba.sum.fsre.dentalappointemntapp.data.model.AvailableSlot>> getAvailableSlots(@Body SlotsRequest body);
+
+    @GET("rest/v1/appointments")
+    Call<List<Appointment>> getAppointmentsForDay(
+            @Query("appointment_time") String startFilter,
+            @Query("appointment_time") String endFilter,
+            @Query("status") String statusFilter,
+            @Query("order") String order,
+            @Query("select") String select
+    );
+
 
 }
