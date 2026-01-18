@@ -3,6 +3,7 @@ package ba.sum.fsre.dentalappointemntapp.data.repository;
 import android.content.Context;
 import java.util.List;
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
+import ba.sum.fsre.dentalappointemntapp.data.model.AvailableSlot;
 import ba.sum.fsre.dentalappointemntapp.data.network.ApiClient;
 import ba.sum.fsre.dentalappointemntapp.data.network.api.AppointmentsApi;
 import retrofit2.Call;
@@ -56,6 +57,26 @@ public class AppointmentsRepository {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void getAvailableSlots(long serviceId, String date, RepositoryCallback<List<AvailableSlot>> callback) {
+        AppointmentsApi.SlotsRequest body = new AppointmentsApi.SlotsRequest(serviceId, date);
+
+        api.getAvailableSlots(body).enqueue(new Callback<List<AvailableSlot>>() {
+            @Override
+            public void onResponse(Call<List<AvailableSlot>> call, Response<List<AvailableSlot>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Greška pri dohvaćanju slobodnih termina");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AvailableSlot>> call, Throwable t) {
                 callback.onError(t.getMessage());
             }
         });
