@@ -4,6 +4,9 @@ import java.util.List;
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
 import retrofit2.Call;
 import retrofit2.http.*;
+import com.google.gson.annotations.SerializedName;
+import ba.sum.fsre.dentalappointemntapp.data.model.AvailableSlot;
+
 
 public interface AppointmentsApi {
 
@@ -19,4 +22,26 @@ public interface AppointmentsApi {
 
     @DELETE("rest/v1/appointments")
     Call<Void> cancelAppointment(@Query("id") String idFilter);
+
+    class SlotsRequest {
+        @SerializedName("p_service_id")
+        public long serviceId;
+
+        @SerializedName("p_date")
+        public String date; // "YYYY-MM-DD"
+
+        public SlotsRequest(long serviceId, String date) {
+            this.serviceId = serviceId;
+            this.date = date;
+        }
+    }
+
+
+    @Headers({
+            "Content-Type: application/json",
+            "Prefer: return=representation"
+    })
+    @POST("rest/v1/rpc/get_available_slots")
+    Call<List<ba.sum.fsre.dentalappointemntapp.data.model.AvailableSlot>> getAvailableSlots(@Body SlotsRequest body);
+
 }

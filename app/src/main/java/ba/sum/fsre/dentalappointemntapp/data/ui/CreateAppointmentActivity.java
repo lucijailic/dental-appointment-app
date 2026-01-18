@@ -56,7 +56,7 @@ public class CreateAppointmentActivity extends AppCompatActivity {
                 return;
             }
 
-            Appointment appointment = new Appointment(serviceId, userId, time, "pending");
+            Appointment appointment = new Appointment(serviceId, userId, time, "booked");
             repository.createAppointment(appointment, new RepositoryCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
