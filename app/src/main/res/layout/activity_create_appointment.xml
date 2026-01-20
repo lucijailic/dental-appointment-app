@@ -82,30 +82,43 @@
                 android:background="#EEEEEE"
                 android:layout_marginBottom="20dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSelectDate"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Datum i vrijeme (GGGG-MM-DD HH:MM)"
-                app:boxStrokeColor="#1DB954"
-                app:hintTextColor="#1DB954"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_height="54dp"
+                android:text="Odaberi datum"
+                android:textColor="#163A2A"
+                app:strokeColor="#1DB954"
+                app:cornerRadius="12dp"
+                android:layout_marginBottom="8dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAppointmentTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:textColor="#163A2A" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/tvSelectedDateDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datum nije odabran"
+                android:textColor="#5E7A6B"
+                android:textSize="14sp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Primjer: 2026-05-20 10:00"
-                android:textColor="#5E7A6B"
-                android:textSize="12sp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"/>
+                android:text="Dostupni termini:"
+                android:textColor="#163A2A"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerSlots"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/bg_spinner_outlined"
+                android:padding="10dp"
+                android:layout_marginBottom="24dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirm"
@@ -118,6 +131,7 @@
                 android:textColor="#FFFFFF"
                 app:cornerRadius="16dp"
                 app:rippleColor="#80FFFFFF"
+                android:enabled="false"
                 android:stateListAnimator="@animator/press_lift"/>
 
         </LinearLayout>
