@@ -57,4 +57,4 @@ Your use of the App is also governed by our Privacy Policy.
 10. Contact
 
 If you have questions about these Terms, contact us at:
-Email: [YOUR_EMAIL_HERE]
+Email: lucija.ilic@fsre.sum.ba
