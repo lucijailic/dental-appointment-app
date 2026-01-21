@@ -127,6 +127,18 @@
                 android:layout_marginTop="14dp"
                 android:padding="8dp" />
 
+            <TextView
+                android:id="@+id/tv_legal_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:padding="6dp"
+                android:textColor="#5E7A6B"
+                android:textSize="11sp"
+                android:text="By continuing, you agree to our Privacy Policy and Terms of Use." />
+
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

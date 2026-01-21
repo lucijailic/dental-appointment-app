@@ -18,6 +18,16 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -39,6 +49,57 @@ public class RegisterActivity extends AppCompatActivity {
         TextView goToLogin      = findViewById(R.id.go_to_login);
 
         goToLogin.setOnClickListener(v -> finish());
+
+        TextView legalText = findViewById(R.id.tv_legal_register);
+
+        final String privacyUrl = "https://lucijailic.github.io/dental-appointment-app/privacy-policy";
+        final String termsUrl   = "https://lucijailic.github.io/dental-appointment-app/terms-of-use";
+
+        String text = "By creating an account, you agree to our Privacy Policy and Terms of Use.";
+        SpannableString ss = new SpannableString(text);
+
+        int privacyStart = text.indexOf("Privacy Policy");
+        int privacyEnd   = privacyStart + "Privacy Policy".length();
+        int termsStart   = text.indexOf("Terms of Use");
+        int termsEnd     = termsStart + "Terms of Use".length();
+
+        ClickableSpan privacySpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(privacyUrl)));
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+                ds.setFakeBoldText(true);
+            }
+        };
+
+        ClickableSpan termsSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(termsUrl)));
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+                ds.setFakeBoldText(true);
+            }
+        };
+
+        ss.setSpan(privacySpan, privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(termsSpan, termsStart, termsEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        ss.setSpan(new ForegroundColorSpan(0xFF1DB954), privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(0xFF1DB954), termsStart, termsEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        legalText.setText(ss);
+        legalText.setMovementMethod(LinkMovementMethod.getInstance());
+        legalText.setHighlightColor(0x00000000);
+
 
         registerBtn.setOnClickListener(v -> {
             String firstName = firstNameInput.getText().toString().trim();
