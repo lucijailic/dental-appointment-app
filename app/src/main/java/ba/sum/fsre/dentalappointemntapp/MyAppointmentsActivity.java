@@ -20,6 +20,8 @@ import ba.sum.fsre.dentalappointemntapp.data.adapter.AppointmentsAdapter;
 public class MyAppointmentsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AppointmentsRepository repository;
+    private AppointmentsAdapter adapter;
+    private List<Appointment> appointmentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,8 @@ public class MyAppointmentsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.rvMyAppointments);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        loadAppointments();
+        adapter = new AppointmentsAdapter(appointmentList, repository, this::loadAppointments);
+        recyclerView.setAdapter(adapter);
 
         ImageButton btnBack = findViewById(R.id.btn_back_appointments);
         if (btnBack != null) {
@@ -39,12 +41,17 @@ public class MyAppointmentsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAppointments();
+    }
     private void loadAppointments() {
         String userId = new TokenStorage(this).getUserId();
         repository.getMyAppointments(userId, new RepositoryCallback<List<Appointment>>() {
             @Override
             public void onSuccess(List<Appointment> result) {
-                recyclerView.setAdapter(new AppointmentsAdapter(result, repository, () -> loadAppointments()));
+                adapter.updateData(result);
             }
 
             @Override

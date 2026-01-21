@@ -51,11 +51,36 @@ public class AppointmentsRepository {
     }
 
     public void cancelAppointment(String id, RepositoryCallback<Void> callback) {
-        api.cancelAppointment("eq." + id).enqueue(new Callback<Void>() {
+        Appointment updateData = new Appointment();
+        updateData.status = "cancelled_by_user";
+
+        api.rescheduleAppointment("eq." + id, updateData).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) callback.onSuccess(null);
                 else callback.onError("Greška pri otkazivanju");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void rescheduleAppointment(String id, String newTime, RepositoryCallback<Void> callback) {
+        Appointment updateData = new Appointment();
+        updateData.appointmentTime = newTime;
+        updateData.status = "booked";
+
+        api.rescheduleAppointment("eq." + id, updateData).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(null);
+                } else {
+                    callback.onError("Greška pri ažuriranju termina");
+                }
             }
 
             @Override
