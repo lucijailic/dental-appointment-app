@@ -53,6 +53,21 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
             }
         }
 
+        String status = app.getStatus();
+        if (status == null || status.equals("booked")) {
+            holder.tvStatus.setVisibility(View.GONE);
+            holder.btnCancel.setVisibility(View.VISIBLE);
+            holder.btnCancel.setEnabled(true);
+        } else {
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            if (status.equals("cancelled_by_owner")) {
+                holder.tvStatus.setText("Otkazano od strane vlasnika");
+            }else {
+                holder.tvStatus.setText("Status: " + status);
+            }
+        }
+
         holder.btnCancel.setOnClickListener(v -> {
             holder.btnCancel.setEnabled(false);
             repository.cancelAppointment(app.getId(), new RepositoryCallback<Void>() {
@@ -78,12 +93,14 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvService, tvTime;
         MaterialButton btnCancel;
+        TextView tvStatus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvService = itemView.findViewById(R.id.tvServiceName);
             tvTime = itemView.findViewById(R.id.tvAppointmentTime);
             btnCancel = itemView.findViewById(R.id.btnCancel);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
         }
     }
 }

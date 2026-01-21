@@ -36,7 +36,7 @@ public class AppointmentsRepository {
     }
 
     public void getMyAppointments(String userId, RepositoryCallback<List<Appointment>> callback) {
-        api.getMyAppointments("eq." + userId, "*,services(name)").enqueue(new Callback<List<Appointment>>() {
+        api.getMyAppointments("eq." + userId, null, "*,services(name)").enqueue(new Callback<List<Appointment>>() {
             @Override
             public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
                 if (response.isSuccessful()) callback.onSuccess(response.body());
@@ -56,6 +56,24 @@ public class AppointmentsRepository {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) callback.onSuccess(null);
                 else callback.onError("Greška pri otkazivanju");
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void cancelByOwner(String id, RepositoryCallback<Void> callback) {
+        java.util.Map<String, String> body = new java.util.HashMap<>();
+        body.put("status", "cancelled_by_owner");
+
+        api.cancelByOwner(body, "eq." + id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) callback.onSuccess(null);
+                else callback.onError("Greška pri otkazivanju od strane vlasnika");
             }
 
             @Override
@@ -92,7 +110,12 @@ public class AppointmentsRepository {
         String end   = "lt."  + next + "T00:00:00Z";
 
         String select = "*,services(name),profiles(email)";
-        String status = "eq.booked";
+        String status;
+        if (isOwner) {
+            status = null;
+        } else {
+            status = "eq.booked";
+        }
         String order  = "appointment_time.asc";
 
         api.getAppointmentsForDay(start, end, status, order, select).enqueue(new Callback<List<Appointment>>() {
