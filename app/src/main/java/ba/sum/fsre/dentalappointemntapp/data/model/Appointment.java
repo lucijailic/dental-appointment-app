@@ -16,6 +16,10 @@ public class Appointment {
 
     public String status;
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @SerializedName("created_at")
     public String createdAt;
 

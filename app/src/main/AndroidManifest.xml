@@ -70,6 +70,7 @@
             android:exported="false" />
 
         <activity android:name=".OwnerAppointmentsActivity" />
+        <activity android:name=".data.ui.EditAppointmentActivity" />
 
 
     </application>

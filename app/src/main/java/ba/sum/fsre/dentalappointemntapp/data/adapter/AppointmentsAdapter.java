@@ -1,5 +1,7 @@
 package ba.sum.fsre.dentalappointemntapp.data.adapter;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import ba.sum.fsre.dentalappointemntapp.R;
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
 import ba.sum.fsre.dentalappointemntapp.data.repository.AppointmentsRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
+import ba.sum.fsre.dentalappointemntapp.data.ui.EditAppointmentActivity;
 
 public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapter.ViewHolder> {
 
@@ -24,6 +27,10 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         this.appointments = appointments;
         this.repository = repository;
         this.onActionFinished = onActionFinished;
+    }
+    public void updateData(List<Appointment> newAppointments) {
+        this.appointments = newAppointments;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -53,20 +60,49 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
             }
         }
 
+        if ("booked".equals(app.getStatus())) {
+            holder.tvStatus.setText("Status: Rezervirano");
+            holder.tvStatus.setTextColor(Color.parseColor("#1DB954"));
+            holder.btnCancel.setVisibility(View.VISIBLE);
+            holder.btnEdit.setVisibility(View.VISIBLE);
+            holder.btnCancel.setEnabled(true);
+        } else if ("cancelled_by_user".equals(app.getStatus())) {
+            holder.tvStatus.setText("Status: Otkazano od strane korisnika");
+            holder.tvStatus.setTextColor(Color.RED);
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnEdit.setVisibility(View.GONE);
+        } else {
+            holder.tvStatus.setText("Status: " + app.getStatus());
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnEdit.setVisibility(View.GONE);
+        }
+
         holder.btnCancel.setOnClickListener(v -> {
+            int currentPos = holder.getBindingAdapterPosition();
+            if (currentPos == RecyclerView.NO_POSITION) return;
+
             holder.btnCancel.setEnabled(false);
             repository.cancelAppointment(app.getId(), new RepositoryCallback<Void>() {
                 @Override
                 public void onSuccess(Void result) {
                     Toast.makeText(v.getContext(), "Rezervacija otkazana!", Toast.LENGTH_SHORT).show();
-                    onActionFinished.run();
+                    if (onActionFinished != null) onActionFinished.run();
                 }
 
                 @Override
                 public void onError(String error) {
+                    holder.btnCancel.setEnabled(true);
                     Toast.makeText(v.getContext(), "Greška: " + error, Toast.LENGTH_SHORT).show();
                 }
             });
+        });
+        holder.btnEdit.setOnClickListener(v -> {
+
+            Intent intent = new Intent(v.getContext(), EditAppointmentActivity.class);
+            intent.putExtra("APPOINTMENT_ID", app.getId());
+            intent.putExtra("SERVICE_ID", app.getServiceId());
+            intent.putExtra("SERVICE_NAME", app.getServiceName());
+            v.getContext().startActivity(intent);
         });
     }
 
@@ -76,14 +112,16 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvService, tvTime;
-        MaterialButton btnCancel;
+        TextView tvService, tvTime, tvStatus;
+        MaterialButton btnCancel, btnEdit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvService = itemView.findViewById(R.id.tvServiceName);
             tvTime = itemView.findViewById(R.id.tvAppointmentTime);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             btnCancel = itemView.findViewById(R.id.btnCancel);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
         }
     }
 }
