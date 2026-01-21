@@ -71,4 +71,4 @@ We may update this Privacy Policy from time to time. Changes will be posted on t
 10. Contact Us
 
 If you have questions about this Privacy Policy, contact us at:
-Email: [YOUR_EMAIL_HERE]
+Email: lucija.ilic@fsre.sum.ba
