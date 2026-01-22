@@ -19,6 +19,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_detailed);
 
+        findViewById(R.id.btn_back_service_details).setOnClickListener(v -> finish());
+
+
         TokenStorage storage = new TokenStorage(this);
         MaterialButton btnReserve = findViewById(R.id.btnReserve);
 

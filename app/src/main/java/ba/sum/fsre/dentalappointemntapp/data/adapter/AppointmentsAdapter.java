@@ -61,36 +61,33 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         }
 
         String status = app.getStatus();
-        if (status == null || status.equals("booked")) {
-            holder.tvStatus.setVisibility(View.GONE);
-            holder.btnCancel.setVisibility(View.VISIBLE);
-            holder.btnCancel.setEnabled(true);
-        } else {
-            holder.btnCancel.setVisibility(View.GONE);
-            holder.tvStatus.setVisibility(View.VISIBLE);
-            if (status.equals("cancelled_by_owner")) {
-                holder.tvStatus.setText("Otkazano od strane vlasnika");
-            }else {
-                holder.tvStatus.setText("Status: " + status);
-            }
-        }
 
-        if ("booked".equals(app.getStatus())) {
+
+        holder.tvStatus.setVisibility(View.VISIBLE);
+        holder.btnCancel.setVisibility(View.GONE);
+        holder.btnEdit.setVisibility(View.GONE);
+
+        if (status == null || "booked".equals(status)) {
             holder.tvStatus.setText("Status: Rezervirano");
             holder.tvStatus.setTextColor(Color.parseColor("#1DB954"));
+
             holder.btnCancel.setVisibility(View.VISIBLE);
             holder.btnEdit.setVisibility(View.VISIBLE);
             holder.btnCancel.setEnabled(true);
-        } else if ("cancelled_by_user".equals(app.getStatus())) {
+
+        } else if ("cancelled_by_user".equals(status)) {
             holder.tvStatus.setText("Status: Otkazano od strane korisnika");
             holder.tvStatus.setTextColor(Color.RED);
-            holder.btnCancel.setVisibility(View.GONE);
-            holder.btnEdit.setVisibility(View.GONE);
+
+        } else if ("cancelled_by_owner".equals(status)) {
+            holder.tvStatus.setText("Status: Otkazano od strane vlasnika");
+            holder.tvStatus.setTextColor(Color.RED);
+
         } else {
-            holder.tvStatus.setText("Status: " + app.getStatus());
-            holder.btnCancel.setVisibility(View.GONE);
-            holder.btnEdit.setVisibility(View.GONE);
+            holder.tvStatus.setText("Status: " + status);
+            holder.tvStatus.setTextColor(Color.DKGRAY);
         }
+
 
         holder.btnCancel.setOnClickListener(v -> {
             int currentPos = holder.getBindingAdapterPosition();

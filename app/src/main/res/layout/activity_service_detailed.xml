@@ -1,68 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true">
+    android:background="@color/light_background">
 
-    <LinearLayout
+
+    <View
+        android:id="@+id/header_service_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center">
+        android:layout_height="120dp"
+        android:background="@drawable/bg_header_wave_green"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/nazivUslugeDetaljno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+    <ImageButton
+        android:id="@+id/btn_back_service_details"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/arrow_back_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/white"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/header_service_details"
+        app:layout_constraintBottom_toBottomOf="@id/header_service_details" />
 
-        <TextView
-            android:id="@+id/trajanjeUslugeDetaljno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+    <TextView
+        android:id="@+id/tv_service_details_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usluga"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@id/btn_back_service_details"
+        app:layout_constraintTop_toTopOf="@id/header_service_details"
+        app:layout_constraintBottom_toBottomOf="@id/header_service_details" />
 
-        <TextView
-            android:id="@+id/cijenaUslugeDetaljno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_gravity="center"
-            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/opisUslugeDetaljno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+    <ScrollView
+        android:id="@+id/scroll_service_details"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header_service_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnReserve"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="Rezerviraj termin"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:backgroundTint="@color/primary"
-            android:textColor="@color/white"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/calendar_today_24"
-            app:iconTint="@color/white"
-            app:iconPadding="10dp"
-            app:rippleColor="@color/ripple_on_white"
-            android:layout_marginTop="16dp"
-            android:stateListAnimator="@animator/press_lift" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/nazivUslugeDetaljno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/trajanjeUslugeDetaljno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/cijenaUslugeDetaljno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/opisUslugeDetaljno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReserve"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Rezerviraj termin"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/calendar_today_24"
+                app:iconTint="@color/white"
+                app:iconPadding="10dp"
+                app:rippleColor="@color/ripple_on_white"
+                android:layout_marginTop="16dp"
+                android:stateListAnimator="@animator/press_lift" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

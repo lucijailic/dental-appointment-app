@@ -35,6 +35,7 @@ public class ManageServicesActivity extends AppCompatActivity implements Service
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_services);
+        findViewById(R.id.btn_back_manage_services).setOnClickListener(v -> finish());
 
         // Register activity result launcher
         addEditServiceLauncher = registerForActivityResult(

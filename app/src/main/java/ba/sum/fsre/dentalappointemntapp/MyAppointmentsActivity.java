@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+
 
 import ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage;
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
@@ -54,11 +56,34 @@ public class MyAppointmentsActivity extends AppCompatActivity {
         }
     }
 
+    private int statusRank(String status) {
+        if (status == null || "booked".equals(status)) return 0;
+        if ("cancelled_by_user".equals(status) || "cancelled_by_owner".equals(status)) return 1;
+        return 2;
+    }
+
+    private void sortAppointments(List<Appointment> list) {
+        Collections.sort(list, (a, b) -> {
+            int ra = statusRank(a.getStatus());
+            int rb = statusRank(b.getStatus());
+            if (ra != rb) return Integer.compare(ra, rb);
+
+            String ta = a.getAppointmentTime();
+            String tb = b.getAppointmentTime();
+            if (ta == null && tb == null) return 0;
+            if (ta == null) return 1;
+            if (tb == null) return -1;
+            return ta.compareTo(tb);
+        });
+    }
+
+
     private void loadAppointments() {
         String userId = new TokenStorage(this).getUserId();
         repository.getMyAppointments(userId, new RepositoryCallback<List<Appointment>>() {
             @Override
             public void onSuccess(List<Appointment> result) {
+                sortAppointments(result);
                 adapter.updateData(result);
             }
 
