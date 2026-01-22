@@ -3,6 +3,12 @@ package ba.sum.fsre.dentalappointemntapp;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import androidx.core.content.ContextCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +29,13 @@ public class MyAppointmentsActivity extends AppCompatActivity {
     private AppointmentsAdapter adapter;
     private List<Appointment> appointmentList = new ArrayList<>();
 
+    private BroadcastReceiver appointmentsUpdatedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            loadAppointments();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +54,6 @@ public class MyAppointmentsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadAppointments();
-    }
     private void loadAppointments() {
         String userId = new TokenStorage(this).getUserId();
         repository.getMyAppointments(userId, new RepositoryCallback<List<Appointment>>() {
@@ -59,6 +67,22 @@ public class MyAppointmentsActivity extends AppCompatActivity {
                 Toast.makeText(MyAppointmentsActivity.this, error, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAppointments();
+        IntentFilter filter = new IntentFilter("ba.sum.fsre.ACTION_APPOINTMENTS_UPDATED");
+        // Use ContextCompat.registerReceiver with explicit exported flag to satisfy
+        // Android U requirement for registering non-system broadcasts.
+        ContextCompat.registerReceiver(this, appointmentsUpdatedReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try { unregisterReceiver(appointmentsUpdatedReceiver); } catch (Exception ignored) {}
     }
 }
 

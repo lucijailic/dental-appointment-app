@@ -60,6 +60,21 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
             }
         }
 
+        String status = app.getStatus();
+        if (status == null || status.equals("booked")) {
+            holder.tvStatus.setVisibility(View.GONE);
+            holder.btnCancel.setVisibility(View.VISIBLE);
+            holder.btnCancel.setEnabled(true);
+        } else {
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            if (status.equals("cancelled_by_owner")) {
+                holder.tvStatus.setText("Otkazano od strane vlasnika");
+            }else {
+                holder.tvStatus.setText("Status: " + status);
+            }
+        }
+
         if ("booked".equals(app.getStatus())) {
             holder.tvStatus.setText("Status: Rezervirano");
             holder.tvStatus.setTextColor(Color.parseColor("#1DB954"));
