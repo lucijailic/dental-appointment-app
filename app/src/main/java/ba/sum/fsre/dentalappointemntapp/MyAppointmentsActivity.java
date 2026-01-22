@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
+import androidx.core.content.ContextCompat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,11 +54,6 @@ public class MyAppointmentsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadAppointments();
-    }
     private void loadAppointments() {
         String userId = new TokenStorage(this).getUserId();
         repository.getMyAppointments(userId, new RepositoryCallback<List<Appointment>>() {
@@ -75,9 +72,11 @@ public class MyAppointmentsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(appointmentsUpdatedReceiver,
-                new IntentFilter("ba.sum.fsre.ACTION_APPOINTMENTS_UPDATED"),
-                Context.RECEIVER_NOT_EXPORTED);
+        loadAppointments();
+        IntentFilter filter = new IntentFilter("ba.sum.fsre.ACTION_APPOINTMENTS_UPDATED");
+        // Use ContextCompat.registerReceiver with explicit exported flag to satisfy
+        // Android U requirement for registering non-system broadcasts.
+        ContextCompat.registerReceiver(this, appointmentsUpdatedReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     @Override
