@@ -21,13 +21,18 @@ public interface AppointmentsApi {
 
     @DELETE("rest/v1/appointments")
     Call<Void> cancelAppointment(@Query("id") String idFilter);
+    @PATCH("rest/v1/appointments")
+    Call<Void> rescheduleAppointment(
+            @Query("id") String id,
+            @Body Appointment appointment
+    );
 
     class SlotsRequest {
         @SerializedName("p_service_id")
         public long serviceId;
 
         @SerializedName("p_date")
-        public String date; // "YYYY-MM-DD"
+        public String date;
 
         public SlotsRequest(long serviceId, String date) {
             this.serviceId = serviceId;
