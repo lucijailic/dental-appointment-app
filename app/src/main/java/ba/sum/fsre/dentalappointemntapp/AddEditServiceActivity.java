@@ -3,6 +3,7 @@ package ba.sum.fsre.dentalappointemntapp;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import ba.sum.fsre.dentalappointemntapp.data.repository.ServicesRepository;
 public class AddEditServiceActivity extends AppCompatActivity {
 
     private EditText etName, etPrice, etDuration, etDescription;
+    private TextView tvTitle;
     private Button btnSave, btnCancel;
     private ServicesRepository repository;
     private String serviceId = null;
@@ -28,6 +30,8 @@ public class AddEditServiceActivity extends AppCompatActivity {
 
         if (getIntent() != null && getIntent().getStringExtra("service_id") != null) {
             serviceId = getIntent().getStringExtra("service_id");
+            // update the title when editing an existing service
+            if (tvTitle != null) tvTitle.setText("Uređivanje usluge");
             loadServiceData();
 
         }
@@ -37,6 +41,7 @@ public class AddEditServiceActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        tvTitle = findViewById(R.id.tv_title);
         etName = findViewById(R.id.et_name);
         etPrice = findViewById(R.id.et_price);
         etDuration = findViewById(R.id.et_duration);

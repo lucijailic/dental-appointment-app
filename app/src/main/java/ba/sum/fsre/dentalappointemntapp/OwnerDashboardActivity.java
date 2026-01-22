@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ba.sum.fsre.dentalappointemntapp.data.model.Appointment;
+import ba.sum.fsre.dentalappointemntapp.data.model.Profile;
+import ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.AppointmentsRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
 
@@ -27,6 +29,7 @@ public class OwnerDashboardActivity extends AppCompatActivity {
     private AppointmentsRepository appointmentsRepository;
 
     private TextView tvTodaySummary;
+    private TextView tvGreeting;
     private LinearLayout containerTodayList;
     private TextView tvViewAllToday;
     private View todayCard;
@@ -39,11 +42,46 @@ public class OwnerDashboardActivity extends AppCompatActivity {
         appointmentsRepository = new AppointmentsRepository(this);
 
         tvTodaySummary = findViewById(R.id.tvTodaySummary);
+        tvGreeting = findViewById(R.id.textView3);
         containerTodayList = findViewById(R.id.containerTodayList);
         tvViewAllToday = findViewById(R.id.tvViewAllToday);
         todayCard = findViewById(R.id.todays_reservations_cardview);
 
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        // Load and set owner greeting
+        String userId = new ba.sum.fsre.dentalappointemntapp.data.local.TokenStorage(this).getUserId();
+        if (userId != null && !userId.isEmpty()) {
+            ProfilesRepository profilesRepository = new ProfilesRepository(this);
+            profilesRepository.getProfileByUserId(userId, new RepositoryCallback<Profile>() {
+                @Override
+                public void onSuccess(Profile data) {
+                    if (data != null) {
+                        String name = "";
+                        if (data.firstName != null) {
+                            name = data.firstName;
+                        }
+                        if (data.lastName != null && !data.lastName.isEmpty()) {
+                            if (!name.isEmpty()) name += " ";
+                            name += data.lastName;
+                        }
+
+                        final String greeting;
+                        if (name.isEmpty()) {
+                            greeting = "Zdravo, Vlasnik";
+                        } else {
+                            greeting = "Zdravo, " + name;
+                        }
+
+                        runOnUiThread(() -> tvGreeting.setText(greeting));
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                }
+            });
+        }
 
         loadTodayAppointments(today);
 
