@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="@color/surface">
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Owner Dashboard"
-        android:textColor="#1DB954"
+        android:textColor="@color/primary"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,11 +39,11 @@
                 android:id="@+id/tvTodayHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1DB954"
+                android:backgroundTint="@color/primary"
                 android:padding="16dp"
                 android:text="Današnje rezervacije"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:padding="12dp"
                 android:text="Učitavanje..."
                 android:textSize="14sp"
-                android:textColor="#163A2A" />
+                android:textColor="@color/on_surface" />
 
             <LinearLayout
                 android:id="@+id/containerTodayList"
@@ -71,7 +71,7 @@
                 android:padding="12dp"
                 android:text="Vidi sve"
                 android:textStyle="bold"
-                android:textColor="#1DB954"
+                android:textColor="@color/primary"
                 android:textAlignment="viewEnd" />
 
         </LinearLayout>
@@ -83,7 +83,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#1DB954"
+        android:backgroundTint="@color/primary"
         android:text="Upravljanje uslugama"
         app:layout_constraintEnd_toStartOf="@id/btn_reservation_owner"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -94,7 +94,7 @@
         android:id="@+id/btn_reservation_owner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#1DB954"
+        android:backgroundTint="@color/primary"
         android:text="Rezervacije"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_service_management_owner"
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#E74C3C"
+        android:backgroundTint="@color/error"
         android:text="Odjava"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

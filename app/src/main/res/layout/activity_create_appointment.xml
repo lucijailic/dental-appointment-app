@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/light_background">
 
     <View
         android:id="@+id/header_bg"
@@ -19,7 +19,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/calendar_today_24"
-        app:tint="#FFFFFF"
+        app:tint="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rezervacija termina"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Detalji rezervacije"
-                android:textColor="#163A2A"
+                android:textColor="@color/on_surface"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Učitavanje usluge..."
-                android:textColor="#1DB954"
+                android:textColor="@color/primary"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="20dp" />
@@ -79,7 +79,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#EEEEEE"
+                android:background="@color/very_light"
                 android:layout_marginBottom="20dp"/>
 
             <com.google.android.material.button.MaterialButton
@@ -88,8 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:text="Odaberi datum"
-                android:textColor="#163A2A"
-                app:strokeColor="#1DB954"
+                android:textColor="@color/on_surface"
+                app:strokeColor="@color/primary"
                 app:cornerRadius="12dp"
                 android:layout_marginBottom="8dp"/>
 
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Datum nije odabran"
-                android:textColor="#5E7A6B"
+                android:textColor="@color/text_secondary"
                 android:textSize="14sp"
                 android:layout_marginBottom="20dp"
                 android:layout_gravity="center"/>
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dostupni termini:"
-                android:textColor="#163A2A"
+                android:textColor="@color/on_surface"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
@@ -127,10 +127,10 @@
                 android:text="Potvrdi rezervaciju"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                android:backgroundTint="#1DB954"
-                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
                 app:cornerRadius="16dp"
-                app:rippleColor="#80FFFFFF"
+                app:rippleColor="@color/ripple_on_white"
                 android:enabled="false"
                 android:stateListAnimator="@animator/press_lift"/>
 

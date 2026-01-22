@@ -50,10 +50,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:text="Uredi"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:backgroundTint="#1DB954"/>
+                android:backgroundTint="@color/primary"/>
 
             <Button
                 android:id="@+id/btn_delete"
@@ -61,10 +61,10 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:text="Obriši"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:backgroundTint="#E74C3C"/>
+                android:backgroundTint="@color/error"/>
 
         </LinearLayout>
 

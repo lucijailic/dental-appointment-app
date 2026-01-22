@@ -9,8 +9,8 @@
     android:layout_marginBottom="6dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:strokeColor="#1DB954"
+    app:cardBackgroundColor="@color/surface"
+    app:strokeColor="@color/primary"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:id="@+id/tvServiceNameOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#163A2A"
+            android:textColor="@color/on_surface"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_marginBottom="4dp" />
@@ -37,7 +37,7 @@
                 android:id="@+id/tvDateOwner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666666"
+                android:textColor="@color/muted"
                 android:textSize="13sp"
                 android:layout_marginEnd="8dp" />
 
@@ -45,7 +45,7 @@
                 android:id="@+id/tvTimeOwner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666666"
+                android:textColor="@color/muted"
                 android:textSize="13sp" />
 
             <TextView
@@ -57,7 +57,7 @@
                 android:paddingRight="8dp"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:background="#E0E0E0"
+                android:background="@color/divider"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/tvUserOwner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
+            android:textColor="@color/dark_text"
             android:textSize="13sp"
             android:layout_marginTop="6dp" />
 
