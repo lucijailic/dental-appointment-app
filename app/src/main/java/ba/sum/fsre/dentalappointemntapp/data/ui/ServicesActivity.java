@@ -29,6 +29,7 @@ public class ServicesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_list);
 
+        findViewById(R.id.btn_back_services).setOnClickListener(v -> finish());
 
         recyclerView = findViewById(R.id.rvServices);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

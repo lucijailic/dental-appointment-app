@@ -61,9 +61,10 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
         holder.tvUser.setText(user != null && !user.isEmpty() ? user : "Nepoznato");
 
         String status = app.getStatus();
-        holder.tvStatus.setText(status != null ? status : "-");
+        holder.tvStatus.setText(getStatusText(status));
+        holder.tvStatus.setTextColor(getStatusColor(status));
 
-        // Show cancel button only when status == "booked"
+
         if ("booked".equals(status)) {
             holder.btnCancel.setVisibility(View.VISIBLE);
             holder.btnCancel.setEnabled(true);
@@ -104,6 +105,32 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
     @Override
     public int getItemCount() {
         return appointments == null ? 0 : appointments.size();
+    }
+    private String getStatusText(String status) {
+        if (status == null) return "Status: -";
+        switch (status) {
+            case "booked":
+                return "Status: Rezervirano";
+            case "cancelled_by_user":
+                return "Status: Otkazano od strane korisnika";
+            case "cancelled_by_owner":
+                return "Status: Otkazano od strane vlasnika";
+            default:
+                return "Status: " + status;
+        }
+    }
+
+    private int getStatusColor(String status) {
+        if (status == null) return android.graphics.Color.DKGRAY;
+        switch (status) {
+            case "booked":
+                return android.graphics.Color.parseColor("#1DB954");
+            case "cancelled_by_user":
+            case "cancelled_by_owner":
+                return android.graphics.Color.RED;
+            default:
+                return android.graphics.Color.DKGRAY;
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
