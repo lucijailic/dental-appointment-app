@@ -54,13 +54,13 @@
             android:textSize="16sp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:backgroundTint="#1DB954"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white"
             app:cornerRadius="16dp"
             app:icon="@drawable/calendar_today_24"
-            app:iconTint="#FFFFFF"
+            app:iconTint="@color/white"
             app:iconPadding="10dp"
-            app:rippleColor="#80FFFFFF"
+            app:rippleColor="@color/ripple_on_white"
             android:layout_marginTop="16dp"
             android:stateListAnimator="@animator/press_lift" />
 

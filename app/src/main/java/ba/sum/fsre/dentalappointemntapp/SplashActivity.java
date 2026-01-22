@@ -12,7 +12,21 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        try {
+            ba.sum.fsre.dentalappointemntapp.data.local.ThemeManager.applySavedTheme(this);
+        } catch (Exception ex) {
+            android.util.Log.e("SplashActivity", "applySavedTheme failed", ex);
+        }
+
+        try {
+            setContentView(R.layout.activity_splash);
+        } catch (Exception ex) {
+            android.util.Log.e("SplashActivity", "setContentView failed", ex);
+            // If we can't inflate the splash layout, fall back to a minimal activity to avoid crash
+            startActivity(new Intent(SplashActivity.this, PublicDashboardActivity.class));
+            finish();
+            return;
+        }
 
         ImageView logo = findViewById(R.id.logo_splash);
         logo.setScaleX(0.85f);

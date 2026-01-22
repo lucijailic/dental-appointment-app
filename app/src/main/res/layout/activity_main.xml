@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Odjavite se"
         android:layout_marginTop="20dp"
-        android:backgroundTint="#4DD0E1"
+        android:backgroundTint="@color/cyan"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.6"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/surface">
 
     <View
         android:id="@+id/header_bg"
@@ -19,18 +19,29 @@
         android:layout_width="78dp"
         android:layout_height="78dp"
         android:src="@drawable/dentistry_24px"
-        app:tint="#FFFFFF"
+        app:tint="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="56dp" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tamni način"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="16dp" />
 
     <TextView
         android:id="@+id/tv_clinic_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Smile Dental"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/iv_logo"
@@ -43,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rezervirajte termin brzo i jednostavno!"
-        android:textColor="#E8FFF1"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/tv_clinic_name"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Što želite napraviti?"
-                android:textColor="#163A2A"
+                android:textColor="@color/on_surface"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="14dp"/>
@@ -87,13 +98,13 @@
                 android:textSize="16sp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:backgroundTint="#1DB954"
-                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
                 app:cornerRadius="16dp"
                 app:icon="@drawable/dentistry_24px"
-                app:iconTint="#FFFFFF"
+                app:iconTint="@color/white"
                 app:iconPadding="10dp"
-                app:rippleColor="#80FFFFFF"
+                app:rippleColor="@color/ripple_on_white"
                 android:stateListAnimator="@animator/press_lift"
                 android:layout_marginBottom="12dp"/>
 
@@ -106,12 +117,12 @@
                 android:textSize="16sp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:backgroundTint="#FFFFFF"
-                android:textColor="#1DB954"
-                app:strokeColor="#1DB954"
+                android:backgroundTint="@color/surface"
+                android:textColor="@color/primary"
+                app:strokeColor="@color/primary"
                 app:strokeWidth="2dp"
                 app:cornerRadius="16dp"
-                app:rippleColor="#331DB954"
+                app:rippleColor="@color/ripple_primary_trans"
                 android:stateListAnimator="@animator/press_lift"
                 android:layout_marginBottom="12dp"/>
 
@@ -124,17 +135,17 @@
                 android:textSize="16sp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:backgroundTint="#169B45"
-                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/success"
+                android:textColor="@color/white"
                 app:cornerRadius="16dp"
-                app:rippleColor="#80FFFFFF"
+                app:rippleColor="@color/ripple_on_white"
                 android:stateListAnimator="@animator/press_lift"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Usluge su dostupne i bez prijave"
-                android:textColor="#5E7A6B"
+                android:textColor="@color/text_secondary"
                 android:textSize="12sp"
                 android:layout_marginTop="14dp"/>
 
