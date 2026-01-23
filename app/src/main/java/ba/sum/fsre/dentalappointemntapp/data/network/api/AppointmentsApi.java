@@ -64,5 +64,8 @@ public interface AppointmentsApi {
         @PATCH("rest/v1/appointments")
         Call<Void> cancelByOwner(@Body java.util.Map<String, String> body, @Query("id") String idFilter);
 
+    @DELETE("rest/v1/appointments")
+    Call<Void> deleteAppointment(@Query("id") String idFilter);
+
 
 }

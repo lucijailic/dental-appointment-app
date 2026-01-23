@@ -107,6 +107,23 @@ public class AppointmentsRepository {
             }
         });
     }
+    public void deleteAppointment(String id, RepositoryCallback<Void> callback) {
+        api.deleteAppointment("eq." + id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(null);
+                } else {
+                    callback.onError("Greška pri brisanju iz baze");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
 
     public void getAvailableSlots(long serviceId, String date, RepositoryCallback<List<AvailableSlot>> callback) {
         AppointmentsApi.SlotsRequest body = new AppointmentsApi.SlotsRequest(serviceId, date);
