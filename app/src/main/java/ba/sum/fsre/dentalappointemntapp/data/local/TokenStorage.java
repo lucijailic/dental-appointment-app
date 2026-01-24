@@ -9,6 +9,9 @@ public class TokenStorage {
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_ROLE = "role";
 
+    private static final String KEY_REFRESH_TOKEN = "refresh_token";
+
+
     private final SharedPreferences sp;
 
     public TokenStorage(Context context) {
@@ -35,6 +38,15 @@ public class TokenStorage {
         sp.edit().putString(KEY_ROLE, role).apply();
     }
 
+    public void saveRefreshToken(String token) {
+        sp.edit().putString(KEY_REFRESH_TOKEN, token).apply();
+    }
+
+    public String getRefreshToken() {
+        return sp.getString(KEY_REFRESH_TOKEN, null);
+    }
+
+
     public String getRole() {
         return sp.getString(KEY_ROLE, null);
     }
@@ -44,6 +56,7 @@ public class TokenStorage {
                 .remove(KEY_ACCESS_TOKEN)
                 .remove(KEY_USER_ID)
                 .remove(KEY_ROLE)
+                .remove(KEY_REFRESH_TOKEN)
                 .apply();
     }
 }

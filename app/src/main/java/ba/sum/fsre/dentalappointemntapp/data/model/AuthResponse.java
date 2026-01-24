@@ -6,6 +6,10 @@ public class AuthResponse {
     private String accessToken;
     public String getAccessToken() { return accessToken; }
 
+    @SerializedName("refresh_token")
+    private String refreshToken;
+    public String getRefreshToken() { return refreshToken; }
+
     public static class User {
         @SerializedName("id")
         private String id;

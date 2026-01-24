@@ -12,6 +12,8 @@ import ba.sum.fsre.dentalappointemntapp.data.model.Profile;
 import ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
 import ba.sum.fsre.dentalappointemntapp.data.ui.ServicesActivity;
+import ba.sum.fsre.dentalappointemntapp.data.util.DeleteAccountHelper;
+
 
 public class UserDashboardActivity extends AppCompatActivity {
 
@@ -50,5 +52,11 @@ public class UserDashboardActivity extends AppCompatActivity {
             finish();
             Toast.makeText(this, "Odjavljeni ste", Toast.LENGTH_SHORT).show();
         });
+
+        findViewById(R.id.btn_delete_account_user)
+                .setOnClickListener(v ->
+                        DeleteAccountHelper.confirmAndDelete(this)
+                );
+
     }
 }

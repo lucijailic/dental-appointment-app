@@ -144,6 +144,13 @@ public class LoginActivity extends AppCompatActivity {
                     TokenStorage storage = new TokenStorage(LoginActivity.this);
                     storage.saveAccessToken(authData.getAccessToken());
 
+                    if (authData.getRefreshToken() != null && !authData.getRefreshToken().isEmpty()) {
+                        storage.saveRefreshToken(authData.getRefreshToken());
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Upozorenje: refresh token nije primljen", Toast.LENGTH_SHORT).show();
+                    }
+
+
                     String userId = authData.getUser().getId();
                     storage.saveUserId(userId);
 

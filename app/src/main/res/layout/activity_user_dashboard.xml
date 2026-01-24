@@ -114,7 +114,19 @@
         app:strokeWidth="1dp"
         app:cornerRadius="16dp"/>
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete_account_user"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="Obriši račun"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/error"
+            app:cornerRadius="16dp"
+            android:layout_marginTop="12dp"/>
+
+
+    </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
