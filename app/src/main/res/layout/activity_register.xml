@@ -146,6 +146,17 @@
                     android:padding="14dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/cb_accept_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="4dp"
+                android:text="I agree to the Privacy Policy and Terms of Use."
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
@@ -173,16 +184,6 @@
                 android:clickable="true"
                 android:focusable="true" />
 
-            <TextView
-                android:id="@+id/tv_legal_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:padding="6dp"
-                android:textColor="@color/text_secondary"
-                android:textSize="11sp"
-                android:text="By creating an account, you agree to our Privacy Policy and Terms of Use." />
 
 
         </LinearLayout>
