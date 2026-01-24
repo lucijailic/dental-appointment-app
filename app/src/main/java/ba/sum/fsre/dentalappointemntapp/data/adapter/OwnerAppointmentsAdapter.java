@@ -2,6 +2,7 @@ package ba.sum.fsre.dentalappointemntapp.data.adapter;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +68,10 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
 
         if ("booked".equals(status)) {
             holder.btnCancel.setVisibility(View.VISIBLE);
+            holder.btnDelete.setVisibility(View.GONE);
             holder.btnCancel.setEnabled(true);
             holder.btnCancel.setOnClickListener(v -> {
-                new AlertDialog.Builder(v.getContext())
+                AlertDialog cancelDialog = new AlertDialog.Builder(v.getContext())
                         .setTitle("Potvrda")
                         .setMessage("Otkaži ovu rezervaciju?")
                         .setPositiveButton("Da", (dialog, which) -> {
@@ -95,10 +97,44 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
                             });
                         })
                         .setNegativeButton("Ne", null)
-                        .show();
+                        .create();
+
+                cancelDialog.show();
+                cancelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#B71C1C"));
+                cancelDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#757575"));
+            });
+        } else if (status != null && status.startsWith("cancelled")) {
+            holder.btnCancel.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+
+            holder.btnDelete.setOnClickListener(v -> {
+                AlertDialog deleteDialog = new AlertDialog.Builder(v.getContext())
+                        .setTitle("Brisanje")
+                        .setMessage("Želite li trajno obrisati ovaj termin?")
+                        .setPositiveButton("Obriši", (dialog, which) -> {
+                            repository.deleteAppointment(app.getId(), new RepositoryCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+                                    Toast.makeText(v.getContext(), "Termin obrisan!", Toast.LENGTH_SHORT).show();
+                                    if (onActionFinished != null) onActionFinished.run();
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(v.getContext(), "Greška: " + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Odustani", null)
+                        .create();
+
+                deleteDialog.show();
+                deleteDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#B71C1C"));
+                deleteDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#757575"));
             });
         } else {
             holder.btnCancel.setVisibility(View.GONE);
+            holder.btnDelete.setVisibility(View.GONE);
         }
     }
 
@@ -136,6 +172,7 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvService, tvTime, tvUser, tvStatus, tvDate;
         MaterialButton btnCancel;
+        android.widget.ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -145,6 +182,7 @@ public class OwnerAppointmentsAdapter extends RecyclerView.Adapter<OwnerAppointm
             tvUser = itemView.findViewById(R.id.tvUserOwner);
             tvStatus = itemView.findViewById(R.id.tvStatusOwner);
             btnCancel = itemView.findViewById(R.id.btnCancelOwner);
+            btnDelete = itemView.findViewById(R.id.btnDeleteOwner);
         }
     }
 }

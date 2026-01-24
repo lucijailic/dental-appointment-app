@@ -70,14 +70,33 @@
             android:textColor="@color/dark_text"
             android:textSize="13sp"
             android:layout_marginTop="6dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancelOwner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Otkaži"
+            app:backgroundTint="#E57373"
             android:layout_marginTop="8dp"
             android:visibility="gone" />
+        <ImageButton
+            android:id="@+id/btnDeleteOwner"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/ic_delete_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#D32F2F"
+            android:visibility="gone"
+            android:contentDescription="Obriši termin" />
+
+    </LinearLayout>
 
     </LinearLayout>
 
