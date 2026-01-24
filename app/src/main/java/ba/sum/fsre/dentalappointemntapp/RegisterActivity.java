@@ -27,6 +27,8 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.CheckBox;
+
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -47,10 +49,13 @@ public class RegisterActivity extends AppCompatActivity {
         EditText passwordInput  = findViewById(R.id.password_input);
         Button registerBtn      = findViewById(R.id.register_button);
         TextView goToLogin      = findViewById(R.id.go_to_login);
+        CheckBox cbAcceptTerms = findViewById(R.id.cb_accept_terms);
+
 
         goToLogin.setOnClickListener(v -> finish());
 
-        TextView legalText = findViewById(R.id.tv_legal_register);
+
+
 
         final String privacyUrl = "https://lucijailic.github.io/dental-appointment-app/privacy-policy";
         final String termsUrl   = "https://lucijailic.github.io/dental-appointment-app/terms-of-use";
@@ -96,9 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
         ss.setSpan(new ForegroundColorSpan(0xFF1DB954), privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         ss.setSpan(new ForegroundColorSpan(0xFF1DB954), termsStart, termsEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        legalText.setText(ss);
-        legalText.setMovementMethod(LinkMovementMethod.getInstance());
-        legalText.setHighlightColor(0x00000000);
+        cbAcceptTerms.setText(ss);
+        cbAcceptTerms.setMovementMethod(LinkMovementMethod.getInstance());
+        cbAcceptTerms.setHighlightColor(0x00000000);
+        cbAcceptTerms.setLinksClickable(true);
+
+
 
 
         registerBtn.setOnClickListener(v -> {
@@ -106,6 +114,12 @@ public class RegisterActivity extends AppCompatActivity {
             String lastName  = lastNameInput.getText().toString().trim();
             String email     = emailInput.getText().toString().trim();
             String password  = passwordInput.getText().toString().trim();
+
+            if (!cbAcceptTerms.isChecked()) {
+                Toast.makeText(this, "Morate prihvatiti Privacy Policy i Terms of Use.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Popunite sva polja", Toast.LENGTH_SHORT).show();
