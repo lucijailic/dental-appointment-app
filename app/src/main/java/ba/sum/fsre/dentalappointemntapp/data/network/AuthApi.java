@@ -29,7 +29,6 @@ public interface AuthApi {
     @POST("auth/v1/signup")
     Call<AuthResponse> register(@Body RegisterRequest request);
 
-    // Dohvat profila (RLS: korisnik vidi svoj red)
     @Headers({
             "Accept: application/json"
     })
@@ -38,4 +37,12 @@ public interface AuthApi {
             @Query("id") String userId,
             @Query("select") String select
     );
+
+    @Headers({
+            "Content-Type: application/json",
+            "Accept: application/json"
+    })
+    @POST("auth/v1/token?grant_type=refresh_token")
+    Call<AuthResponse> refresh(@Body okhttp3.RequestBody body);
+
 }

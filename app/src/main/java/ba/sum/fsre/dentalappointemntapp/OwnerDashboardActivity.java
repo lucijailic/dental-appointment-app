@@ -22,6 +22,8 @@ import ba.sum.fsre.dentalappointemntapp.data.model.Profile;
 import ba.sum.fsre.dentalappointemntapp.data.repository.ProfilesRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.AppointmentsRepository;
 import ba.sum.fsre.dentalappointemntapp.data.repository.RepositoryCallback;
+import ba.sum.fsre.dentalappointemntapp.data.util.DeleteAccountHelper;
+
 
 
 public class OwnerDashboardActivity extends AppCompatActivity {
@@ -107,6 +109,12 @@ public class OwnerDashboardActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         });
+
+        findViewById(R.id.btn_delete_account_owner)
+                .setOnClickListener(v ->
+                        DeleteAccountHelper.confirmAndDelete(this)
+                );
+
     }
 
     private void loadTodayAppointments(String dateYYYYMMDD) {

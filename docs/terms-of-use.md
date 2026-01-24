@@ -50,6 +50,9 @@ To the fullest extent permitted by law, we are not liable for any indirect, inci
 
 We may suspend or terminate access to the App if we believe you violated these Terms or used the App unlawfully.
 
+Users may also terminate their account at any time by using the **Delete account** option available within the App.
+
+
 9. Privacy
 
 Your use of the App is also governed by our Privacy Policy.
