@@ -1,10 +1,12 @@
 package ba.sum.fsre.dentalappointemntapp.data.adapter;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -66,6 +68,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         holder.tvStatus.setVisibility(View.VISIBLE);
         holder.btnCancel.setVisibility(View.GONE);
         holder.btnEdit.setVisibility(View.GONE);
+        holder.btnDelete.setVisibility(View.GONE);
 
         if (status == null || "booked".equals(status)) {
             holder.tvStatus.setText("Status: Rezervirano");
@@ -75,39 +78,76 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
             holder.btnEdit.setVisibility(View.VISIBLE);
             holder.btnCancel.setEnabled(true);
 
-        } else if ("cancelled_by_user".equals(status)) {
-            holder.tvStatus.setText("Status: Otkazano od strane korisnika");
+            holder.btnCancel.setOnClickListener(v -> {
+                AlertDialog cancelDialog = new AlertDialog.Builder(v.getContext())
+                        .setTitle("Potvrda")
+                        .setMessage("Jeste li sigurni da želite otkazati ovaj termin?")
+                        .setPositiveButton("Da", (dialog, which) -> {
+                            holder.btnCancel.setEnabled(false);
+                            repository.cancelAppointment(app.getId(), new RepositoryCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+                                    Toast.makeText(v.getContext(), "Rezervacija otkazana!", Toast.LENGTH_SHORT).show();
+
+                                    app.status = "cancelled_by_user";
+
+                                    if (onActionFinished != null) onActionFinished.run();
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    holder.btnCancel.setEnabled(true);
+                                    Toast.makeText(v.getContext(), "Greška: " + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Ne", null)
+                        .create();
+
+                cancelDialog.show();
+                cancelDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#B71C1C"));
+                cancelDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#757575"));
+            });
+
+        } else if (status != null && status.startsWith("cancelled")) {
+            if ("cancelled_by_user".equals(status)) {
+                holder.tvStatus.setText("Status: Otkazano od strane korisnika");
+            } else {
+                holder.tvStatus.setText("Status: Otkazano od strane vlasnika");
+            }
             holder.tvStatus.setTextColor(Color.RED);
 
-        } else if ("cancelled_by_owner".equals(status)) {
-            holder.tvStatus.setText("Status: Otkazano od strane vlasnika");
-            holder.tvStatus.setTextColor(Color.RED);
+            holder.btnDelete.setVisibility(View.VISIBLE);
+
+            holder.btnDelete.setOnClickListener(v -> {
+                AlertDialog deleteDialog = new AlertDialog.Builder(v.getContext())
+                        .setTitle("Brisanje")
+                        .setMessage("Želite li trajno izbrisati ovaj termin iz povijesti?")
+                        .setPositiveButton("Obriši", (dialog, which) -> {
+                            repository.deleteAppointment(app.getId(), new RepositoryCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void result) {
+                                    Toast.makeText(v.getContext(), "Termin obrisan!", Toast.LENGTH_SHORT).show();
+                                    if (onActionFinished != null) onActionFinished.run();
+                                }
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(v.getContext(), "Greška: " + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        })
+                        .setNegativeButton("Odustani", null)
+                        .create();
+
+                deleteDialog.show();
+                deleteDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#B71C1C"));
+                deleteDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#757575"));
+            });
 
         } else {
             holder.tvStatus.setText("Status: " + status);
             holder.tvStatus.setTextColor(Color.DKGRAY);
         }
-
-
-        holder.btnCancel.setOnClickListener(v -> {
-            int currentPos = holder.getBindingAdapterPosition();
-            if (currentPos == RecyclerView.NO_POSITION) return;
-
-            holder.btnCancel.setEnabled(false);
-            repository.cancelAppointment(app.getId(), new RepositoryCallback<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                    Toast.makeText(v.getContext(), "Rezervacija otkazana!", Toast.LENGTH_SHORT).show();
-                    if (onActionFinished != null) onActionFinished.run();
-                }
-
-                @Override
-                public void onError(String error) {
-                    holder.btnCancel.setEnabled(true);
-                    Toast.makeText(v.getContext(), "Greška: " + error, Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
         holder.btnEdit.setOnClickListener(v -> {
 
             Intent intent = new Intent(v.getContext(), EditAppointmentActivity.class);
@@ -126,6 +166,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvService, tvTime, tvStatus;
         MaterialButton btnCancel, btnEdit;
+        ImageButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,6 +175,7 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
             tvStatus = itemView.findViewById(R.id.tvStatus);
             btnCancel = itemView.findViewById(R.id.btnCancel);
             btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDeleteUser);
         }
     }
 }
