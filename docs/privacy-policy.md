@@ -2,7 +2,8 @@
 
 **Effective date:** January 21, 2026
 
-This Privacy Policy explains how DentalAppointmentApp (“the App”, “we”, “us”) collects, uses, and protects your information when you use our mobile application.
+This Privacy Policy explains how Dental Appointment (“the App”, “we”, “us”) collects, uses, and protects your information when you use our mobile application.
+
 
 ## 1. Information We Collect
 
@@ -30,8 +31,9 @@ The App uses Supabase as a backend service. Your data is stored in a Supabase-ho
 
 We do not sell your personal information. We do not share your personal information with third parties except:
 
-- when required by law, legal process, or governmental request,
-- to protect the rights, security, and integrity of the App and its users.
+- when required by law, legal process, or governmental request;
+- to protect the rights, security, and integrity of the App and its users; and
+- with Supabase as a service provider to host authentication and database services necessary for the operation of the App.
 
 ## 5. Data Retention
 
@@ -51,6 +53,8 @@ This action is irreversible.
 ## 7. Security
 
 We take reasonable measures to protect your information. Backend access control rules are enforced to ensure users can only access their own data.
+All data transmission between the App and backend services is encrypted using HTTPS.
+
 
 ## 8. Your Rights
 

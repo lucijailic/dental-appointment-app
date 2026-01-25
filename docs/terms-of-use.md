@@ -4,7 +4,7 @@
 
 
 
-These Terms of Use (“Terms”) govern your use of DentalAppointmentApp (“the App”). By accessing or using the App, you agree to these Terms.
+These Terms of Use (“Terms”) govern your use of Dental Appointment (“the App”). By accessing or using the App, you agree to these Terms.
 
 1. Use of the App
 
@@ -17,12 +17,9 @@ You are responsible for maintaining the confidentiality of your login credential
 3. Appointments
 
 When you create, edit, or cancel an appointment, you agree to:
-
-provide accurate and up-to-date scheduling information,
-
-avoid abusive or fraudulent booking behavior,
-
-respect any availability logic enforced by the App and backend.
+- provide accurate and up-to-date scheduling information,
+- avoid abusive or fraudulent booking behavior,
+- respect any availability logic enforced by the App and backend.
 
 4. Prohibited Conduct
 
@@ -52,10 +49,9 @@ We may suspend or terminate access to the App if we believe you violated these T
 
 Users may also terminate their account at any time by using the **Delete account** option available within the App.
 
-
 9. Privacy
 
-Your use of the App is also governed by our Privacy Policy.
+Your use of the App is also governed by our Privacy Policy, available at the provided Privacy Policy URL.
 
 10. Contact
 
