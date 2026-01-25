@@ -128,10 +128,20 @@ public class LoginActivity extends AppCompatActivity {
             api.login(new AuthRequest(email, password)).enqueue(new Callback<AuthResponse>() {
                 @Override
                 public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-                    if (!response.isSuccessful() || response.body() == null) {
-                        Toast.makeText(LoginActivity.this, "Pogrešan email ili lozinka", Toast.LENGTH_SHORT).show();
+                    if (!response.isSuccessful()) {
+                        if (response.code() == 400 || response.code() == 401) {
+                            Toast.makeText(LoginActivity.this, "Pogrešan email ili lozinka", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Greška na serveru. Pokušajte kasnije.", Toast.LENGTH_SHORT).show();
+                        }
                         return;
                     }
+
+                    if (response.body() == null) {
+                        Toast.makeText(LoginActivity.this, "Greška: Nije primljen odgovor sa servera.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
 
                     AuthResponse authData = response.body();
                     if (authData.getAccessToken() == null ||
@@ -188,8 +198,15 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<AuthResponse> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Greška u mreži: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    String msg = "Došlo je do greške. Pokušajte ponovno.";
+
+                    if (t instanceof java.io.IOException) {
+                        msg = "Nema internetske veze. Provjerite mrežu i pokušajte ponovno.";
+                    }
+
+                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_LONG).show();
                 }
+
             });
         });
     }
